@@ -18,7 +18,7 @@ const NavigationItems = () => {
                 link="/" exact >Početna</Item>
 
             {(isAuthenticated) ?
-                <ul>
+                <>
                     <Item
                         className={classes.NavigationItem}
 
@@ -29,7 +29,7 @@ const NavigationItems = () => {
                     <Item
                         className={classes.NavigationItem}
                         link="/korpa">Korpa</Item>
-                </ul>
+                </>
                 : null
             }
             <Item

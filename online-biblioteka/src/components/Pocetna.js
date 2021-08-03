@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import classes from './Pocetna.module.css'
 import Navbar from './Navbar';
 import { useHistory } from 'react-router';
 import Profile from './Auth/Profile';
+import axios from '../axios-korpa';
 
 const api = {
     key: 'AIzaSyAD0nRMYxVvRzDeaUFFR8w0m_3cDMcCFUU',
@@ -27,14 +29,35 @@ const Pocetna = () => {
     }
 
 
+    const purchase = () => {
+        const korpa = {
+            customer: {
+                name: "emir",
+                adress: {
+                    street: 'testna ulica bb',
+                    zipCode: '134124',
+                    country: 'BiH'
+                }
+            }
+        }
+
+        axios.post('/korpa.json', korpa)
+            .then(res => console.log(res))
+            .catch(error => console.log(error))
+    }
+
+
+    const procitano = () => {
+        answer.items
+    }
 
 
 
 
     return (
         <div>
-            <Profile />
             <Navbar />
+            <Profile />
             <input
                 type="text"
                 placeholder="Traži..."
@@ -45,14 +68,28 @@ const Pocetna = () => {
 
             {(typeof answer.items != 'undefined') ? (
                 <div>
-                    <div>{answer.items.map(i => <div> {i.volumeInfo.title} </div>)}</div>
+                    <div>{answer.items.map(i => <div className={classes.Title} > {i.volumeInfo.title} </div>)}</div>
                     <div>{answer.items.map(i => <img src={i.volumeInfo.imageLinks.thumbnail} alt="Reload your page" />)}</div>
                     <div>{answer.items.map(btn => {
                         return (
                             <div>
-                                <button type="submit" >Lista želja</button>
-                                <button type="submit" onClick={() => {history.push('/login')}}>Kupi</button>
-                                <button type="submit" >Na čitanju</button>
+                                <button
+                                    type="submit" >Lista želja</button>
+                                <button
+                                    type="submit"
+                                    onClick={() => {
+                                        history.push('/korpa')
+                                        purchase()
+                                    }}>Kupi</button>
+                                <button
+                                    type="submit"
+                                    onClick={() => {
+                                        history.push({
+                                            pathname: '/procitano',
+                                            state: data
+                                        })
+                                        procitano()
+                                    }}>Počitano</button>
                             </div>
                         )
                     })}</div>
