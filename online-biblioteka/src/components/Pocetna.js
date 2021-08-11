@@ -4,16 +4,21 @@ import Navbar from './Navbar';
 import { useHistory } from 'react-router';
 import Profile from './Auth/Profile';
 import axios from '../axios-korpa';
+import Procitano from './Procitano';
 
 const api = {
     key: 'AIzaSyAD0nRMYxVvRzDeaUFFR8w0m_3cDMcCFUU',
     base: 'https://www.googleapis.com/books/v1/volumes?q='
 }
 
+
+
 const Pocetna = () => {
 
     const [query, setQuery] = useState('')
     const [answer, setAnswer] = useState('')
+    const [clicked, setClicked] = useState(false)
+    const [click, setClick] = useState(0)
     let history = useHistory();
 
     const search = event => {
@@ -48,11 +53,18 @@ const Pocetna = () => {
 
 
     const procitano = () => {
-        answer.items
+         const knjiga = {
+             book: answer.items[click].volumeInfo.title
+         }
+         axios.post('/procitano.json', knjiga) 
+
     }
 
-
-
+    const finding = (event) => {
+        if (event.key === 'Clicked') {
+            return setClicked(!clicked)
+        }
+    }
 
     return (
         <div>
@@ -75,21 +87,24 @@ const Pocetna = () => {
                             <div>
                                 <button
                                     type="submit" >Lista želja</button>
+
                                 <button
                                     type="submit"
                                     onClick={() => {
                                         history.push('/korpa')
                                         purchase()
+                                        procitano()
+                                        setClick(() => {
+                                            answer.items.findIndex(finding)
+                                        }
+                                        )
                                     }}>Kupi</button>
                                 <button
                                     type="submit"
                                     onClick={() => {
-                                        history.push({
-                                            pathname: '/procitano',
-                                            state: data
-                                        })
-                                        procitano()
-                                    }}>Počitano</button>
+                                        history.push('/procitano')
+                                           procitano()
+                                    }}><Procitano />Procitano</button>
                             </div>
                         )
                     })}</div>
