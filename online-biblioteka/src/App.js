@@ -17,8 +17,8 @@ const App = () => {
   const { isAuthenticated } = useAuth0();
 
   <div>
-    <LoginButton />
-    <Logout />
+    <LoginButton data-testid="loginBtn" />
+    <Logout data-testid="logoutBtn" />
   </div>
 
 
@@ -39,8 +39,6 @@ const App = () => {
     <BrowserRouter>
       <Switch>
         <Route path="/" component={Pocetna} exact />
-        <Route path="/login" component={LoginButton} />
-        <Route path="/sign-up" component={Logout} />
         <Route path="/procitano" component={Procitano} />
         <Elements stripe={stripePromise} >
           <Route path="/korpa" component={Checkout} />
@@ -54,6 +52,7 @@ const App = () => {
 
   return (
     <div>
+      <h1 data-testid="header" >Online-biblioteka</h1>
       {isAuthenticated ? authRoutes : routes}
     </div>
   );

@@ -76,6 +76,7 @@ const Pocetna = () => {
                 onChange={e => setQuery(e.target.value)}
                 value={query}
                 onKeyPress={search}
+                data-testid="listEl"
             />
 
             {(typeof answer.items != 'undefined') ? (
