@@ -1,5 +1,5 @@
 html {
-  background-image:url("./components/Assets/Photos/books.jpg") ;
+  background-image:url("../Assets/Photos/books.jpg") ;
 }
 
 .App {
@@ -28,7 +28,7 @@ html {
   color: white;
 }
 
-.App-link {
+.Applink {
   color: #2986a0;
 }
 

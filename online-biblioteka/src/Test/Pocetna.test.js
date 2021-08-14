@@ -1,32 +1,37 @@
 import React from 'react';
-import Purchase from '../components/Pocetna';
-import { fireEvent, render } from '@testing-library/react';
+import Pocetna from '../components/Pocetna';
+import { act, screen, render } from '@testing-library/react';
 import "@testing-library/jest-dom/extend-expect";
-import axios from 'axios';
+import { BrowserRouter } from 'react-router-dom';
 
-test("List behaves correctly", () => {
-    const {getByTestid} = render(<Pocetna />);
-    const listEl = getByTestid("listEl");
 
-    fireEvent.change(listEl, {
-        target: {
-            value:"Sarajevo"
+const mockData = {
+    customer: {
+        name: "emir",
+        adress: {
+            street: 'testna ulica bb',
+            zipCode: '134124',
+            country: 'BiH'
         }
+    }
+}
+
+
+describe("Posts", () => {
+    beforeEach(() => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () => Promise.resolve(mockData)
+            }))
+    });
+
+
+    test("fetch and render", async () => {
+        await act((async) => render(
+            <BrowserRouter>
+                <Pocetna />
+            </BrowserRouter>
+        ));
+        expect(screen.getByText("Emir")).toBeInTheDocument()
     })
-
-    expect(listEl.value).toBe("Sarajevo")
 })
-
-jest.mock('axios');
-test("should fetch users", () => {
-    const users = [{name: "Emir"}];
-    const resp = {data: users}
-    axios.post.mockImplementation(() => Promise.resolve(resp));
-
-    return Purchase.all().then(data => expect(data).toEqual(users))
-})
-
-/* test("change value on input", () => {
-    const {getByTestid} = render(<Pocetna />);
-    const 
-}) */

@@ -1,4 +1,4 @@
-import './App.css';
+import './components/Style/App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import LoginButton from './components/Auth/Login';
 import Pocetna from './components/Pocetna';
@@ -8,6 +8,7 @@ import Checkout from './components/Checkout';
 import { useAuth0 } from "@auth0/auth0-react";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
+
 
 const stripePromise = loadStripe(`${process.env.PUBLISHABLE_KEY}`)
 
@@ -52,7 +53,7 @@ const App = () => {
 
   return (
     <div>
-      <h1 data-testid="header" >Online-biblioteka</h1>
+      <h1 data-testid="header" className="Applink" >Online-biblioteka</h1>
       {isAuthenticated ? authRoutes : routes}
     </div>
   );

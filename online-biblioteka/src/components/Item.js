@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import classes from './Navbar.module.css'
+import classes from './Style/Navbar.module.css'
 
 const menuItem = (props) => (
     <li className={classes.NavigationItem}>

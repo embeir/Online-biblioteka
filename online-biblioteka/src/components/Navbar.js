@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from './Navbar.module.css';
+import classes from './Style/Navbar.module.css'
 import Item from './Item';
 import Logout from './Auth/Logout';
 import { useAuth0 } from "@auth0/auth0-react";
