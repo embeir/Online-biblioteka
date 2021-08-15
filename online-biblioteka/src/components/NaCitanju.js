@@ -1,43 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import classes from './Style/Procitano.module.css'
+import React, { useEffect, useState } from 'react';
+import classes from './Style/NaCitanju.module.css'
 import firebase from '../firebase.config';
 
+const NaCitanju = () => {
 
-const Procitano = () => {
-   
-    const [book, setBook] = useState([]);
+    const [page, setPage] = useState(0);
+    const [count, setCount] = useState(0);
     const [loading, setLoading] = useState(false);
 
-  
-
-    const res = firebase.firestore().collection("procitano")
+    const res = firebase.firestore().collection("NaCitanju")
 
     const getData = () => {
         setLoading(true);
         res.onSnapshot((querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {
-                items.push(doc.data());
+                items.push(doc.data())
             })
-            setBook(items);
-            console.log(book)
+            setPage(items);
+            console.log(page)
             setLoading(false);
         })
     }
 
     useEffect(() => {
         getData()
-    }, []);
+    });
 
     if(loading) {
         return <h1>Loading</h1>
     }
 
-    return (
-        <div className={classes.Lista}>
-            <h1>{book.length}</h1>
+   /*  return (
+        <div className={classes.PageNum}>
             {
-                book.map(i => {
+                page.map(i => {
                     return (
                         <div>
                             <h1>{i.book}</h1>
@@ -46,9 +43,14 @@ const Procitano = () => {
                 })
             }
         </div>
+    ) */
+
+
+    return (
+        <div className={classes.PageNum}>
+            <h1>{page.book}</h1>
+        </div>
     )
 }
 
-
-
-export default Procitano;
+export default NaCitanju

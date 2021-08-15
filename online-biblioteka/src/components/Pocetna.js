@@ -3,12 +3,7 @@ import classes from './Style/Pocetna.module.css'
 import Navbar from './Navbar';
 import { useHistory } from 'react-router';
 import Profile from './Auth/Profile';
-import axios from '../axios-korpa';
-import * as admin from 'firebase-admin';
-
-admin.initializeApp({
-    databaseURL:"https://online-biblioteka-default-rtdb.europe-west1.firebasedatabase.app"
-})
+import firebase from '../firebase.config';
 
 const api = {
     key: 'AIzaSyAD0nRMYxVvRzDeaUFFR8w0m_3cDMcCFUU',
@@ -23,6 +18,7 @@ const Pocetna = () => {
     const [clicked, setClicked] = useState(false)
     const [click, setClick] = useState(0)
     const [data, setData] = useState('')
+    const [pageNum, setPageNum] = useState('')
     let history = useHistory();
 
     const search = event => {
@@ -38,8 +34,24 @@ const Pocetna = () => {
     }
 
 
-    const purchase = async () => {
-        let db = admin.database();
+    const page = () => {
+        const pageCoun = {
+            book: answer.items[click].volumeInfo.pageCount,
+            customer: {
+                name: "emir",
+                adress: {
+                    street: 'testna ulica bb',
+                    zipCode: '134124',
+                    country: 'BiH'
+                }
+            }
+        }
+        const res = firebase.firestore().collection('NaCitanju').add(pageCoun);
+        setPageNum(res)
+    }
+
+
+    const purchase = () => {
         const korpa = {
             book: answer.items[click].volumeInfo.title,
             customer: {
@@ -51,20 +63,11 @@ const Pocetna = () => {
                 }
             }
         }
-        const res = await db.firestore().collection('procitano').doc('/rg7xG77nf7luAQ4eByHs').set(korpa);
+        const res = firebase.firestore().collection('procitano').add(korpa);
         setData(res)
-       /*  axios.post('/korpa.json', korpa)
-        .then(res => console.log(res))
-        .catch(error => console.log(error)) */
     }
-    
-    
-    const procitano = () => {
-        const knjiga = {
-            book: answer.items[click].volumeInfo.title
-        }
-        axios.post('/procitano.json', knjiga)
-    }
+
+
 
     const finding = (event) => {
         if (event.key === 'Clicked') {
@@ -72,7 +75,7 @@ const Pocetna = () => {
         }
     }
 
-  
+
     return (
         <div>
             <Navbar />
@@ -94,27 +97,32 @@ const Pocetna = () => {
                         return (
                             <div>
                                 <button
-                                    type="submit" >Lista želja</button>
+                                    type="submit"
+                                    onClick={() => {
+                                        history.push('/na-citanju')
+                                        page()
+                                        setClick(() => {
+                                            answer.items.findIndex(finding)
+                                        })
+                                    }}>Lista želja</button>
                                 <button
                                     type="submit"
                                     onClick={() => {
                                         history.push('/korpa')
                                         purchase()
-                                        procitano()
                                         setClick(() => {
                                             answer.items.findIndex(finding)
                                         })
                                     }}>Kupi</button>
-                                 <button
+                                <button
                                     type="submit"
                                     onClick={() => {
                                         history.push('/procitano')
-                                        procitano()
                                         purchase()
                                         setClick(() => {
                                             answer.items.findIndex(finding)
                                         })
-                                    }}>Procitano</button> 
+                                    }}>Procitano</button>
                             </div>
                         )
                     })}</div>

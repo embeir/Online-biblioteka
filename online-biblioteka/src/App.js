@@ -4,6 +4,7 @@ import LoginButton from './components/Auth/Login';
 import Pocetna from './components/Pocetna';
 import Procitano from './components/Procitano';
 import Logout from './components/Auth/Logout';
+import NaCitanju from './components/NaCitanju';
 import Checkout from './components/Checkout';
 import { useAuth0 } from "@auth0/auth0-react";
 import { loadStripe } from '@stripe/stripe-js';
@@ -41,6 +42,7 @@ const App = () => {
       <Switch>
         <Route path="/" component={Pocetna} exact />
         <Route path="/procitano" component={Procitano} />
+        <Route path="/na-citanju" component={NaCitanju} />
         <Elements stripe={stripePromise} >
           <Route path="/korpa" component={Checkout} />
         </Elements>
