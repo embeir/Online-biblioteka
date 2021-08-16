@@ -1,0 +1,8 @@
+.Profile {
+    border-radius: 30%;
+}
+
+.Name,
+.Email {
+    color: aqua;
+}
